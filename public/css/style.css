@@ -1,0 +1,180 @@
+.panel-login {
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 40%;
+}
+
+  /************ configuração da pagina de tela incial *********************/
+.configImagem {
+  margin-top: 5%;
+  width: 100%;
+}
+
+#configFontF{
+  float: left;
+}
+
+#configFont {
+  margin-top: 5%;
+  height: 65px;
+  font-size: 4rem;
+}
+
+#fontes {
+  font-family: 'open_sansregular', sans-serif;
+}
+
+.font {
+  font-size: 1.3em;
+}
+
+/************ configuração da pagina de Perguntas *********************/
+#fontConfigPerguntas{
+  font-family: 'open_sansregular', sans-serif;
+}
+
+#TituloPerguntas{
+  font-family: 'open_sansregular', sans-serif;
+   font-weight: bolder;
+   font-size: 1.7rem;
+
+}
+
+.fontTituloPerg{
+color: #2c66ce;
+padding-bottom: 20px;
+margin-top: 3%;
+}
+
+/* enable absolute positioning */
+
+.inner-addon {
+  position: relative;
+}
+
+
+/* style glyph */
+
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+
+/* align glyph */
+
+.left-addon .glyphicon {
+  left: 0px;
+}
+
+.right-addon .glyphicon {
+  right: 0px;
+}
+
+
+/* add padding  */
+
+.left-addon input {
+  padding-left: 30px;
+}
+
+.right-addon input {
+  padding-right: 30px;
+}
+
+
+/*Formulario*/
+
+.corPreta {
+  background-color: rgb(38, 34, 34);
+}
+
+.fontBranca {
+  color: white;
+}
+
+.termAde {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: auto;
+  background-color: rgb(82, 86, 89);
+  width: 100%;
+  height: 500px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.termAdeContainer {
+  width: 71%;
+  background-color: #FFFFFF;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-shadow: 0px 0px 20px #000000
+}
+
+p {
+  font-size: 12.0pt;
+  font-family: 'Times New Roman', 'serif';
+}
+
+.obrigatorio {
+  color: red
+}
+
+#iconeBrand {
+  background-image: -webkit-gradient( linear, left top, right top, color-stop(0, red), color-stop(0.30, orange), color-stop(0.55, yellow), color-stop(1, green));
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.validaCampo {
+  position: absolute;
+  color: #a94442;
+}
+
+
+/* Início loading*/
+
+@-webkit-keyframes spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+.square {
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #999 #ccc;
+  border-radius: 50px;
+  -webkit-animation: spinning 0.75s infinite linear;
+  animation: spinning 0.75s infinite linear;
+}
+
+
+/*Fim loading*/
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+#textoLoading {
+  color: #999;
+}
