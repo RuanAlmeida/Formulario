@@ -3,285 +3,194 @@
         <div class="navbar-header navbar-left">
             <h4 class="navbar-text"><span class="glyphicon glyphicon-signal" id="iconeBrand"></span> INTERNET PARA TODOS</h4>
         </div>
-        <div class="navbar-header navbar-right">
-            <h4 class="navbar-text">{{userName | uppercase}}</h4>
-            <button ng-click="logout()" class="btn navbar-btn btn-primary">Sair</button>
-        </div>
     </div>
 </nav>
 
-<div class="container bg-light" id="divForm">
-    <h2 class="text-center">Termo de adesão ao programa internet para todos</h2>
-    <br>
-
-
-    <form novalidate ng-submit="submitForm(formulario,locais)" name="formPI" onKeyDown="if (event.keyCode == '13'){ return false }">
-        <div class="form-group">
-            <h4>Favor preencher as informações com os dados do prefeito ou representante legal da prefeitura</h4>
-        </div>
-        <h3>Informações do prefeito</h3>
+<div>
+    <div class="container-fluid">
         <div class="row">
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.nome_prefeito.$error.required && formPI.nome_prefeito.$dirty ||  formPI.nome_prefeito.$error.maxlength}">
-                <label class="form-control-label" for="nome_prefeito">Nome do Prefeito<strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" ng-maxlength="45" ng-model="formulario.nome_prefeito" id="nome_prefeito" name="nome_prefeito" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.nome_prefeito.$error.required && formPI.nome_prefeito.$dirty" class="help-block">
-								Cargo obrigatório!
-				</span>
-                <span ng-show="formPI.nome_prefeito.$error.maxlength" class="validaCampo help-block">
-								Quantidade máxima de 45 caracteres!
-				</span>
+            <div class="col-md-4">
+                <pagination boundary-links="true" max-size="5" items-per-page="itemsPerPage" total-items="formFiltrado.length" ng-model="currentPage" ng-change="pageChanged()"></pagination>
             </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.nacionalidade_prefeito.$error.required && formPI.nacionalidade_prefeito.$dirty || formPI.nacionalidade_prefeito.$error.maxlength}">
-                <label class="form-control-label" for="nacionalidade_prefeito">Nacionalidade do Prefeito <strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" ng-maxlength="45" ng-model="formulario.nacionalidade_prefeito" id="nacionalidade_prefeito" name="nacionalidade_prefeito" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.nacionalidade_prefeito.$error.required && formPI.nacionalidade_prefeito.$dirty" class="help-block">
-                   Nacionalidade do Prefeito obrigatório!
-				</span>
-                <span ng-show="formPI.nacionalidade_prefeito.$error.maxlength" class="validaCampo help-block">
-								Quantidade máxima de 45 caracteres!
-				</span>
+            <div class="col-md-1">
+                <input type="button" class="btn btn-default btnCleanFilter" ng-click="cleanFilter()" value="Limpar Filtros">
             </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.residencia_prefeito.$error.required && formPI.residencia_prefeito.$dirty || formPI.residencia_prefeito.$error.maxlength }">
-                <label class="form-control-label" for="rg">Cidade de domicílio do Prefeito<strong class="obrigatorio">*</strong></label>
-                <input type="text" ng-maxlength="45" class="form-control" ng-model="formulario.residencia_prefeito" id="residencia_prefeito" name="residencia_prefeito" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.residencia_prefeito.$error.required && formPI.residencia_prefeito.$dirty" class="help-block">
-								Número da Identidade obrigatório!
-				</span>
-                <span style="position: absolute" ng-show="formPI.residencia_prefeito.$error.maxlength" class="help-block">
-								Quantidade máxima de 45 caracteres!
-				</span>
-
+            <div class="col-md-1 quantItens">
+                <p ng-if='formFiltrado.length == 1'><strong>{{formFiltrado.length}} item</strong></p>
+                <p ng-if='formFiltrado.length != 1'><strong>{{formFiltrado.length}} itens</strong></p>
+            </div>
+            <div class="col-md-offset-11">
+                <a href="/excel" target="_blank" class="btn btn-success">Gerar Excel</a>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.cpf_prefeito.$error.required && formPI.cpf_prefeito.$dirty ||  formPI.cpf_prefeito.$error.minlength || (formPI.cpf_prefeito.$invalid && formulario.cpf_prefeito.length == 14)}">
-                <label class="form-control-label" for="cpf_prefeito">Número do CPF <strong class="obrigatorio">*</strong></label>
-                <input type="text" ng-change="validaCPF(formulario.cpf_prefeito)" class="form-control" ng-minlength="14" ng-model="formulario.cpf_prefeito" id="cpf" name="cpf_prefeito" placeholder="" ng-required="true" ng-cpfFinal="true" ng-Cnpjcpf>
-                <span style="position: absolute" ng-show="formPI.cpf_prefeito.$error.required && formPI.cpf_prefeito.$dirty" class="help-block">
-								CPF obrigatório!
-				</span>
-                <span style="position: absolute" ng-show="formPI.cpf_prefeito.$error.minlength" class="validaCampo help-block">
-								Quantidade mínima de 8 caracteres!
-				</span>
-                <span style="position: absolute" ng-show="formPI.cpf_prefeito.$invalid && formulario.cpf_prefeito.length == 14" class="validaCampo help-block">
-                        CPF Inválido!
-                </span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.identidade_prefeito.$error.required && formPI.identidade_prefeito.$dirty || formPI.identidade_prefeito.$error.maxlength }">
-                <label class="form-control-label" for="rg">Número da Identidade<strong class="obrigatorio">*</strong></label>
-                <input type="text" ng-maxlength="20" class="form-control" ng-model="formulario.identidade_prefeito" id="identidade_prefeito" name="identidade_prefeito" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.identidade_prefeito.$error.required && formPI.identidade_prefeito.$dirty" class="help-block">
-								Número da Identidade obrigatório!
-							</span>
-                 <span style="position: absolute" ng-show="formPI.identidade_prefeito.$error.maxlength" class="validaCampo help-block">
-								Quantidade máxima de 20 caracteres!
-				</span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.orgao_expedidor.$error.required && formPI.orgao_expedidor.$dirty }">
-                <label class="form-control-label" for="rg">Órgão Expedidor - UF<strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" ng-maxlength="10" ng-model="formulario.orgao_expedidor" id="orgao_expedidor" name="orgao_expedidor" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.orgao_expedidor.$error.required && formPI.orgao_expedidor.$dirty" class="help-block">
-								Número da Identidade obrigatório!
-							</span>
-                <span style="position: absolute" ng-show="formPI.orgao_expedidor.$error.maxlength" class="help-block">
-								Quantidade máxima de 8 caracteres!
-							</span>
-            </div>
-        </div>
-
-        <br>
-        <h3>Informações da prefeitura</h3>
-        <div class="row">
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.cnpj.$error.required && formPI.cnpj.$dirty || formPI.cnpj.$error.minlength || (formPI.cnpj.$invalid && formulario.cnpj.length==18)}">
-                <label class="form-control-label" for="cnpj">CNPJ da Prefeitura<strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" ng-minlength="18" ng-model="formulario.cnpj" id="cnpj" name="cnpj" placeholder="" ng-required="true" ng-Cnpjcpf>
-                <span style="position: absolute" ng-show="formPI.cnpj.$error.required && formPI.cnpj.$dirty" class="help-block">
-								CNPJ obrigatório!
-				</span>
-                <span style="position: absolute" ng-show="formPI.cnpj.$error.minlength" class="validaCampo help-block">
-								 Quantidade mínima de 18 caracteres!
-				</span>
-               <span style="position: absolute" ng-show="formPI.cnpj.$invalid && formulario.cnpj.length==18" class="validaCampo help-block">
-								 CNPJ inválido!
-				</span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.uf.$error.required && formPI.uf.$dirty }">
-                <label class="form-control-label" for="estado">Estado<strong class="obrigatorio">*</strong></label>
-                <select id="uf" nome="uf" class="form-control form-controlComboBox" ng-change="SelecionarMunicipios(formulario.uf)" ng-model="formulario.uf" ng-required="true">
-                    <option value="">Selecione o estado</option>
-                    <option ng-repeat="estado in estados" value="{{estado.uf}}">{{estado.nome}}</option>
-                </select>
-                <span style="position: absolute" ng-show="formPI.uf.$error.required && formPI.uf.$dirty" class="help-block">
-								Estado obrigatório!
-							</span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.nome_municipio.$error.required && formPI.nome_municipio.$dirty }">
-                <label class="form-control-label" for="municipio">Município<strong class="obrigatorio">*</strong></label>
-                <select id="municipio" nome="municipio" class="form-control form-controlComboBox" ng-model="formulario.municipio" ng-required="true">
-                    <option value="">Selecione o município</option>
-                    <option ng-repeat="estado in municipios" value="{{estado.nome}}">{{estado.nome}}</option>
-                </select>
-                <span style="position: absolute" ng-show="formPI.nome_municipio.$error.required && formPI.nome_municipio.$dirty" class="help-block">
-								Estado obrigatório!
-							</span>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.telefone1.$error.required && formPI.telefone1.$dirty || formPI.telefone1.$error.minlength}">
-                <label class="form-control-label" for="telefone1">Telefone 1<strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" mask="(99) 9? 9999-9999" ng-minlength="15" ng-model="formulario.telefone1" id="telefone1" name="telefone1" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.telefone1.$error.required && formPI.telefone1.$dirty" class="validaCampo help-block">
-								Telefone Obrigatorio!
-							</span>
-           <span style="position: absolute" ng-show="formPI.telefone1.$error.minlength" class="validaCampo help-block">
-								Quantidade mínima de 8 caracteres!
-				</span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.telefone2.$error.required && formPI.telefone2.$dirty || formPI.telefone2.$error.minlength}">
-                <label class="form-control-label" for="telefone2">Telefone 2<strong class="obrigatorio">*</strong></label>
-                <input type="text" class="form-control" mask="(99) 9? 9999-9999"  ng-minlength="15" ng-model="formulario.telefone2" id="telefone2" name="telefone2" placeholder="" ng-required="true">
-                <span style="position: absolute" ng-show="formPI.telefone2.$error.required && formPI.telefone2.$dirty " class="help-block">
-								Telefone Obrigatorio!
-				</span>
-                <span style="position: absolute" ng-show="formPI.telefone2.$error.minlength" class="validaCampo help-block">
-								Quantidade mínima de 8 caracteres!
-				</span>
-            </div>
-            <div class="form-group col-md-4" ng-class="{ 'has-error' : formPI.email_prefeito.$error.required && formPI.email_prefeito.$dirty || formPI.email_prefeito.$error.pattern }">
-                <label class="form-control-label" for="email_prefeito">Email Prefeito<strong class="obrigatorio">*</strong></label>
-                <input type="email" class="form-control" ng-model="formulario.email_prefeito" id="email_prefeito"  name="email_prefeito" placeholder="" ng-required="true"  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
-                <span style="position: absolute" ng-show="formPI.email_prefeito.$error.required && formPI.email_prefeito.$dirty " class="validaCampo help-block">
-								Email Obrigatorio!
-				</span>
-                <span style="position: absolute" ng-show="formPI.email_prefeito.$error.pattern && formPI.email_prefeito.$dirty " class="validaCampo help-block">
-								Email invalido!
-				    </span>
-
-            </div>
-        </div>
-
-        <br>
-
-        <span ng-show="msgLocalidadeInvalida" class="help-block" style="color:#a94442">Nome da localidade, longitude e latitude são campos obrigatórios.</span>
-        <table class="table table-striped table-responsive table-bordered table-hover">
-            <thead>
-                <tr class="corPreta">
-                    <th class="fontBranca"><strong>Nome da Localidade</strong></th>
-                    <th class="fontBranca"><strong>Latitude</strong></th>
-                    <th class="fontBranca"><strong>Longitude</strong></th>
-                    <th class="fontBranca"><strong>População da Localidade</strong></th>
-                    <th class="fontBranca"><strong>Ação</strong></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <input type="text" class="form-control" maxlength="45" ng-model="local.nome" id="nomeLocalidade" name="nomeLocalidade" placeholder="Nome da Localidade">
-                    </td>
-                    <td>
-                       <div class="input-group">
-                        <span class="input-group-addon btn btn-info" style="color:white" ng-click="trocaSinal()" data-toggle="tooltip" data-placement="top" title="Clique para alterar entre latitude negativa e positiva."><b>{{sinal}}</b></span><input type="text" class="form-control" ng-model="local.latitude" ng-pattern="/^[0-9.]/" id="local" name="latitude" placeholder="Ex: -00.000000 Ex2: 0.000000">
-                           </div>
-                    </td>
-                    <td>
-                    <div class="input-group">
-                        <span class="input-group-addon  btn btn-info" style="color:white" data-toggle="tooltip" data-placement="top" title="A longitude no Brasil só pode ser negativa."><b>-</b></span><input type="text"  class="form-control"  ng-model="local.longitude"  id="local" name="longitude" ng-pattern="/^[0-9.]/" placeholder="Ex: -00.000000">
-                    </div>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" maxlength="7" ng-model="local.populacao" id="populacao" name="populacao" placeholder="População da Localidade">
-                    </td>
-                    <td>
-                        <a ng-click="addLocal(local)" ng-disabled="formPI.latitude.$error.pattern" class="btn btn-primary"><span class="glyphicon glyphicon-plus fontBranca"></span></a>
-                    </td>
-                </tr>
-                <tr ng-if="locaisBanco" ng-repeat="localBanco in locaisBanco">
-                    <td class="font">{{localBanco.nome}}</td>
-                    <td class="font">{{localBanco.latitude}}</td>
-                    <td class="font">{{localBanco.longitude}}</td>
-                    <td class="font">{{localBanco.populacao}}</td>
-                    <td>
-                        <button ng-click="deleteLocalBanco(localBanco, $index)" class="btn btn-danger"><span class="glyphicon glyphicon-trash fontBranca"></span></button>
-                    </td>
-                </tr>
-                <tr ng-if="locais" ng-repeat="localView in locais">
-                    <td class="font">{{localView.nome}}</td>
-                    <td class="font">{{localView.latitude}}</td>
-                    <td class="font">{{localView.longitude}}</td>
-                    <td class="font">{{localView.populacao}}</td>
-                    <td>
-                        <a  class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash fontBranca"></span></a>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-
-
-
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-              </div>
-              <div class="modal-body">
-                <p class="">Deseja realmente excluir essa localidade?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <a ng-click="deleteLocal($index)" class="btn btn-danger " data-dismiss="modal" value="treta">Remover</a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-
-
-        <br>
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary"><strong class="fontBranca">Salvar</strong></button>
-                </div>
-            </div>
-        </div>
-
-    </form>
-
-
-    <br>
-    <div ng-if="pdf">
-        <div class="form-check">
-            <input ng-model="check.value" type="checkbox" class="form-check-input" ng-true-value="1" ng-false-value="null">
-            <label class="form-check-label" for="exampleCheck1">Concorda com os termos?</label>
-
-        </div>
-        <div class="row">
-        <div class="col-md-1">
-        <button ng-click="baixarPdf()" id="btnPdf" ng-disabled="check.value != true" class="btn corPreta"><strong class="fontBranca">Donwload</strong></button>
-    <!--    <button ng-click="printDiv()" id="btnPdf" ng-model="print" ng-disabled="check.value != true" class="btn corPreta"><strong class="fontBranca">Donwload2</strong></button>-->
-
-        </div>
-        <div class="col-md-2 hide" id="spanLoading"><b id="textoLoading">Por favor, aguarde...</b>
-        <div class="col-md-1 square"></div>
-        </div>
-        </div>
-        <termo-adesao oncontextmenu="return false" ondragstart="return false" onselectstart="return false"></termo-adesao>
-
     </div>
-    <br>
-</div>
-<script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})</script>
-<script src="js/services/estado-municipio-server.js"></script>
+
+    <div class="container-fluid">
+
+        <form ng-submit="submeter(forms)" name="formIpt">
+            <div id="table">
+                <table class="table table-striped table-bordered table-hover table-responsive">
+                    <thead>
+                        <tr class="tr-config">
+                            <th><strong>Código IBGE</strong><br></th>
+                            <th ng-class="{'has-success': est != null}"><strong>Estado</strong><br>
+                                <select ng-class="{'has-color': est != null}" class="form-control inputTh" ng-change="filtroGeral();selectMunicipio(est);" ng-model="est" ng-options="est.uf as est.nome for est in estados">
+                                <option value="">Nenhum</option>
+                            </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': muni != null}"><strong>Município</strong><br>
+                                <select ng-class="{'has-color': muni != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="muni" ng-options="muni.cod_ibge as muni.nome_municipio for muni in municipios">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': muniCont != null}"><strong>Município contatado</strong><br>
+                                <select ng-class="{'has-color': muniCont != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="muniCont" ng-options="sn.value as sn.value for sn in simNao">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': emailEnv != null}"><strong>Emails enviados (Ofício)</strong><br>
+                                <select ng-class="{'has-color': emailEnv != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="emailEnv" ng-options="ofice.value as ofice.value for ofice in ofiEnv">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': recibOfi != null}"><strong>Recebimento ofício</strong><br>
+                                <select ng-class="{'has-color': recibOfi != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="recibOfi" ng-options="sn.value as sn.value for sn in simNao">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': linkEnv != null}"><strong>Link Enviado</strong><br>
+                                <select ng-class="{'has-color': linkEnv != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="linkEnv" ng-options="lk.value as lk.value for lk in link">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': terAde != null}"><strong>Assinatura Prefeito</strong><br>
+                                <select ng-class="{'has-color': terAde != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="terAde" ng-options="sn.value as sn.value for sn in simNao">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': termOk != null}"><strong>Termo Ok</strong><br>
+                                <select ng-class="{'has-color': termOk != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="termOk" ng-options="sn.value as sn.value for sn in termOkAba">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th ng-class="{'has-success': minSei != null}"><strong>Ministro SEI</strong><br>
+                                <select ng-class="{'has-color': minSei != null}" name="" id="" class="form-control inputTh" ng-change="filtroGeral()" ng-model="minSei" ng-options="sn.value as sn.value for sn in simNao">
+                            <option value="">Nenhum</option>
+                        </select>
+                                <div id="lupa"></div>
+                            </th>
+                            <th>Número SEI</th>
+                            <th><strong>Nome do prefeito(a)</strong></th>
+                            <th><strong>Solicitante</strong></th>
+                            <th><strong>Telefone</strong></th>
+                            <th><strong>Email</strong></th>
+                            <th><strong>Email oficial</strong></th>
+                            <th id="obsLabel"><strong>Observação</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="filteredTodos == ''">
+                            <td colspan="15" align="center">Nenhum registro encontrado.</td>
+                        </tr>
+                        <tr ng-if="filteredTodos != ''" ng-repeat="form in filteredTodos">
+                            <td>
+                                {{form.cod_ibge}}
+                            </td>
+                            <td>
+                                {{form.uf}}  <!--input type="button" id="btnInvisivel" value="SomosFodas" ng-dblclick="somosFodas(form, $index)" /-->
+                            </td>
+                            <td>
+                                {{form.nome_municipio}}
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.municipio_contatado">
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.oficio_enviado">
+                            <option value=""></option>
+                            <option value="Email respondido">Email respondido</option>
+                            <option value="Email voltou">Email voltou</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.oficio_recebido">
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.link_enviado">
+                            <option value=""></option>
+                            <option value="Email voltou">Email voltou</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.termo_adesao">
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.termo_ok">
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                            <option value="Atualizado">Atualizado</option>
+                            <option ng-if="form.termo_ok === 'Notificado'" value="Notificado">Notificado</option>
+                        </select>
+                            </td>
+                            <td>
+                                <select name="" id="" class="form-control inputTable" ng-change="submeter(form)" ng-model="form.ass_sei">
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                            </td>
+                            <td>
+                                <input type="text" mask="99999.999999/9999-99" ng-minlength="20" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.processo_sei">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.nome_prefeito">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.solicitante">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.telefone1">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.email1">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputTable" ng-blur="submeter(form)" ng-model="form.email_oficial">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control inputObs" ng-blur="submeter(form)" ng-model="form.obs">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+    </div>
+    <script></script>

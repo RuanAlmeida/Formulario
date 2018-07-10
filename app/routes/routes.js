@@ -1,31 +1,22 @@
-module.exports = function(app){
+module.exports = (app) => {
 
     var formulario = app.api.formulario;
-    var gerarPDF = app.api.gerarPDF;
+    var exportar = app.api.exportarExcel;
     
-    //Rota para salvar os dados do Formulario e as Localidades.
-    app.route('/ipt/formulario')
-        .post(formulario.salvaFormulario);
+    //Rota para listar todos os Estados.
+    app.route('/ipt/estados')
+        .get(formulario.listaEstados);
     
-    //Rota para listar todos os dados do Formulario.
-    app.route('/ipt/formulario/:cod_usuario')
-        .get(formulario.listaDadosFormulario);
+    //Rota para listar todos os dados.
+    app.route('/ipt/form/')
+        .get(formulario.listaform)
+        .put(formulario.editaInformacoes); //Rota para editar os dados do Formulario.
     
-    //Rota para editar os dados do Formulario e as Localidades.
-    app.route('/ipt/formulario/:cod_entidade')
-        .put(formulario.editaFormulario);
+    //Rota para listar os Municipios de uma determinada UF.
+    app.route('/ipt/municipios/:uf')
+        .get(formulario.listarMunicipios);
     
-    //Rota para apagar uma Localidade.
-    app.route('/ipt/localidade/:cod_localidade')
-        .delete(formulario.apagaLocalidade);
-    
-    //Rota para atualizar se o Usuário aceitou o termo de adesão.
-    app.route('/ipt/aceitarTermo/:cod_entidade')
-        .put(formulario.aceitaTermo);
-    
-    //Rota para gerar o PDF.
-    app.route('/pdf/:cod_usuario/:token')
-        .get(gerarPDF.geraPDF);
-    
-    
+    //Rota para exportar os dados do Banco de Dados em Excel.
+    app.route('/excel')
+        .get(exportar.exportarExcel);
 };

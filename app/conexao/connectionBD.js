@@ -2,16 +2,16 @@
 var mysql = require('mysql');
 
 //Cria a conexão com o Banco de Dados.
-var connectMYSQL = function(){
+var connectMYSQL = () => {
 	return mysql.createConnection({
 			host: 'localhost',
 			user: 'root',
 			password: 'root',
-			database: 'internet_para_todos'
+			database: 'form_ipt'
 	});
 };
 
 //Retorna a conexão.
-module.exports = function(){
+module.exports = () => {
 	return connectMYSQL;
 };

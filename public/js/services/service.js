@@ -1,69 +1,159 @@
 (function () {
     'use strict';
-    angular.module('formK').service('InjecaoInfo', InjecaoInfo); //Define o nome a função do seu .service
+    angular.module('ipt').service('InjecaoInfo', InjecaoInfo); //Define o nome a função do seu .service
     InjecaoInfo.$inject = ['$http']; //Lista de dependências
     function InjecaoInfo($http, $routeParams) {
         var vm = this;
 
-        vm.getDadosUser = getDadosUser;
-        vm.deleteLocal = deleteLocal;
-        vm.ufSelect = ufSelect;
-        vm.putDadosUser = putDadosUser;
+        vm.getEstado = getEstado;
+        vm.getMunicipio = getMunicipio;
+        vm.putForm = putForm;
+        vm.fitroGeral = fitroGeral;
+      
         
-        function getDadosUser(idUser) {
-            return  $http.get('ipt/formulario/' + idUser);
-        }
-
-        function putDadosUser(dadosUser){
-            return $http.put('/ipt/formulario', dadosUser);
+        function getEstado() {
+            return  $http.get('/ipt/estados');
         }
         
-        
-        function deleteLocal(idLocal) {
-            return $http.delete('ipt/localidade/' + idLocal);
+        function getMunicipio(uf) {
+            return  $http.get('/ipt/municipios/' + uf);
         }
         
-        
-        var estados = [{index:1, uf:'AC'},
-                       {index:2, uf:'AL'},
-                       {index:3, uf:'AM'},
-                       {index:4, uf:'AP'},
-                       {index:5, uf:'BA'},
-                       {index:6, uf:'CE'},
-                       {index:7, uf:'DF'},
-                       {index:8, uf:'ES'},
-                       {index:9, uf:'GO'},
-                       {index:10, uf:'MA'},
-                       {index:11, uf:'MG'},
-                       {index:12, uf:'MS'},
-                       {index:13, uf:'MT'},
-                       {index:14, uf:'PA'},
-                       {index:15, uf:'PB'},
-                       {index:16, uf:'PE'},
-                       {index:17, uf:'PI'},
-                       {index:18, uf:'PR'},
-                       {index:19, uf:'RJ'},
-                       {index:20, uf:'RN'},
-                       {index:21, uf:'RO'},
-                       {index:22, uf:'RR'},
-                       {index:23, uf:'RS'},
-                       {index:24, uf:'SC'},
-                       {index:25, uf:'SP'},
-                       {index:26, uf:'SE'},
-                       {index:27, uf:'TO'}
-                      ]
-        
-        function ufSelect(uf) {
-            var numSeclet = null;
-            for (var x = 0; x < estados.length; x++){
-                if (uf == estados[x].uf) {
-                    numSeclet = estados[x].index;
-                    break;
-                }
-            }
-            return numSeclet;
-        }
-        
+        function putForm(form) {
+            return  $http.put('/ipt/form', form);
+        }        
     }
+    
+      function fitroGeral(form, est, estAnterior, muni, muniCont, emailEnv, recibOfi, linkEnv, terAde, termOk, minSei) {
+            var selectMunicipio = false;
+            /*IF para filtro do estado*/
+
+            if (est) {
+                for (var a = 0; a < form.length; a++) {
+                    if (form[a].uf != est) {
+                        form[a] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do municipio*/
+
+            if (muni && (est == estAnterior)) {
+                for (var b = 0; b < form.length; b++) {
+                    if (form[b].cod_ibge != muni) {
+                        form[b] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            } else {
+                selectMunicipio = true;
+            }
+
+            /*IF para filtro do municipio contatado*/
+
+            if (muniCont) {
+                for (var c = 0; c < form.length; c++) {
+                    if (form[c].municipio_contatado != muniCont) {
+                        form[c] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do oficio enviado*/
+
+            if (emailEnv) {
+                for (var d = 0; d < form.length; d++) {
+                    if (form[d].oficio_enviado != emailEnv) {
+                        form[d] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do oficio recebido*/
+
+            if (recibOfi) {
+                for (var e = 0; e < form.length; e++) {
+                    if (form[e].oficio_recebido != recibOfi) {
+                        form[e] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do link enviado*/
+
+            if (linkEnv) {
+                for (var f = 0; f < form.length; f++) {
+                    if (form[f].link_enviado != linkEnv) {
+                        form[f] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do termo de adesao*/
+
+            if (terAde) {
+                for (var g = 0; g < form.length; g++) {
+                    if (form[g].termo_adesao != terAde) {
+                        form[g] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do Termo Ok*/
+
+            if (termOk) {
+                for (var g = 0; g < form.length; g++) {
+                    if (form[g].termo_ok != termOk) {
+                        form[g] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+
+            /*IF para filtro do Bunda do ministro*/
+
+            if (minSei) {
+                for (var g = 0; g < form.length; g++) {
+                    if (form[g].ass_sei != minSei) {
+                        form[g] = null;
+                    }
+                }
+
+                form = $.grep(form, function (n) {
+                    return n == 0 || n
+                })
+            }
+            return {form: form, selectMunicipio: selectMunicipio};
+        }
+    
 })();
-//

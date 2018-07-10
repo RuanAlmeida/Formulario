@@ -1,180 +1,144 @@
-.panel-login {
-  margin: 0 auto;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  width: 40%;
+#table {
+    height: 580px;
+    overflow-x: scroll;
 }
 
-  /************ configuração da pagina de tela incial *********************/
-.configImagem {
-  margin-top: 5%;
-  width: 100%;
+.tr-config{
+  background: #191919;
+    color: white;
 }
 
-#configFontF{
-  float: left;
+select.has-color{
+    color: black;
+    background-color: #93ff95;
 }
 
-#configFont {
-  margin-top: 5%;
-  height: 65px;
-  font-size: 4rem;
+option {
+        color: black;
+        background-color: white;
 }
 
-#fontes {
-  font-family: 'open_sansregular', sans-serif;
+#btnInvisivel {
+  background-color:transparent;
+  border:none;
+  color:transparent;
+  width:40px;
+  float:right;
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+  cursor: context-menu;
+}
+#btnInvisivel:active {
+  background-color:transparent;
+  border:none;
+  color:transparent;
+}
+#btnInvisivel:hover {
+  background-color:transparent;
+  border:none;
+  color:transparent;
 }
 
-.font {
-  font-size: 1.3em;
+.header-fixed {
+    width: 100%
 }
 
-/************ configuração da pagina de Perguntas *********************/
-#fontConfigPerguntas{
-  font-family: 'open_sansregular', sans-serif;
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
 }
 
-#TituloPerguntas{
-  font-family: 'open_sansregular', sans-serif;
-   font-weight: bolder;
-   font-size: 1.7rem;
-
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
 }
 
-.fontTituloPerg{
-color: #2c66ce;
-padding-bottom: 20px;
-margin-top: 3%;
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 150px;
 }
 
-/* enable absolute positioning */
-
-.inner-addon {
-  position: relative;
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 20%;
+    float: left;
 }
 
-
-/* style glyph */
-
-.inner-addon .glyphicon {
-  position: absolute;
-  padding: 10px;
-  pointer-events: none;
+th {
+    text-align: center;
 }
 
-
-/* align glyph */
-
-.left-addon .glyphicon {
-  left: 0px;
+.inputTable {
+    width: 200px;
 }
 
-.right-addon .glyphicon {
-  right: 0px;
+.thTable {
+    width: 140px;
+    float: left;
 }
 
-
-/* add padding  */
-
-.left-addon input {
-  padding-left: 30px;
+.filterBtn {
+    width: 20px;
+    font-size: 10px;
+    color: #696969;
+    padding: 6px 2px 0px 2px;
+    margin-left: 2px;
+    cursor: pointer;
 }
 
-.right-addon input {
-  padding-right: 30px;
+.filterBtn:hover {
+    color: black;
 }
 
-
-/*Formulario*/
-
-.corPreta {
-  background-color: rgb(38, 34, 34);
+.inputTh {
+    padding-left: 23px;
+    min-width: 200px;
+    width: 100%;
+    float: left;
 }
 
-.fontBranca {
-  color: white;
+#obsLabel{
+    min-width: 400px;
 }
 
-.termAde {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  overflow: auto;
-  background-color: rgb(82, 86, 89);
-  width: 100%;
-  height: 500px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+.inputObs{
+    min-width: 400px;
 }
 
-.termAdeContainer {
-  width: 71%;
-  background-color: #FFFFFF;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  box-shadow: 0px 0px 20px #000000
+/* formatação do elemento */
+
+#lupa {
+    float: left;
+    margin: -28px 0px 0px 10px;
+    cursor: pointer
 }
 
-p {
-  font-size: 12.0pt;
-  font-family: 'Times New Roman', 'serif';
+/* formatação do conteúdo  */
+
+#lupa:after {
+    font-family: FontAwesome;
+    font-size: 14px;
+    content: "\f002";
+    color: black;
 }
 
-.obrigatorio {
-  color: red
+.search {
+    text-align: center;
+    width: 100%;
 }
 
-#iconeBrand {
-  background-image: -webkit-gradient( linear, left top, right top, color-stop(0, red), color-stop(0.30, orange), color-stop(0.55, yellow), color-stop(1, green));
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
+.quantItens {
+    margin-top: 24px;
 }
 
-.validaCampo {
-  position: absolute;
-  color: #a94442;
-}
-
-
-/* Início loading*/
-
-@-webkit-keyframes spinning {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(180deg);
-  }
-}
-
-@keyframes spinning {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(180deg);
-  }
-}
-
-.square {
-  width: 20px;
-  height: 20px;
-  padding: 10px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #999 #ccc;
-  border-radius: 50px;
-  -webkit-animation: spinning 0.75s infinite linear;
-  animation: spinning 0.75s infinite linear;
-}
-
-
-/*Fim loading*/
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-#textoLoading {
-  color: #999;
+.btnCleanFilter {
+    margin-top: 20px;
 }
